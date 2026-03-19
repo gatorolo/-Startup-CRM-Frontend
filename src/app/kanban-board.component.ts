@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './services/mock-data.service';
 import { Trato, EtapaTrato } from './models/models';
 import { NotificationService } from './services/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-kanban-board',
@@ -108,13 +109,13 @@ export class KanbanBoardComponent implements OnInit {
 
   enviarWhatsApp(trato: Trato) {
     this.notifService.sendWhatsApp({ phone: '+5491122334455', message: `Acerca del trato: ${trato.nombre}` }).subscribe(res => {
-      alert(`WhatsApp enviado por el trato con ${trato.empresa}`);
+      Swal.fire('¡Enviado!', `WhatsApp enviado por el trato con ${trato.empresa}`, 'success');
     });
   }
 
   enviarEmail(trato: Trato) {
     this.notifService.sendEmail({ to: 'fake@email.com', subject: 'Actualización de trato', body: `Novedades sobre el trato: ${trato.nombre}` }).subscribe(res => {
-      alert(`Email enviado por el trato con ${trato.empresa}`);
+      Swal.fire('¡Enviado!', `Email enviado por el trato con ${trato.empresa}`, 'success');
     });
   }
 }

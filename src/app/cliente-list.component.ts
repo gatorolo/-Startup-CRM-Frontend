@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './services/mock-data.service';
 import { Cliente } from './models/models';
 import { NotificationService } from './services/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cliente-list',
@@ -148,13 +149,13 @@ export class ClienteListComponent implements OnInit {
 
   enviarWhatsApp(cliente: Cliente) {
     this.notifService.sendWhatsApp({ phone: '+5491122334455', message: `Hola ${cliente.nombre}, ¿cómo estás?` }).subscribe(res => {
-      alert(`WhatsApp enviado a ${cliente.nombre}`);
+      Swal.fire('¡Enviado!', `WhatsApp enviado a ${cliente.nombre}`, 'success');
     });
   }
 
   enviarEmail(cliente: Cliente) {
     this.notifService.sendEmail({ to: 'fake@email.com', subject: 'Contacto CRM', body: `Hola ${cliente.nombre}...` }).subscribe(res => {
-      alert(`Email enviado a ${cliente.nombre}`);
+      Swal.fire('¡Enviado!', `Email enviado a ${cliente.nombre}`, 'success');
     });
   }
 }
