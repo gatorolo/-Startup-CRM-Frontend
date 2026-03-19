@@ -1,0 +1,45 @@
+<div class="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 bg-sagrada-bg w-full relative">
+    <div class="max-w-7xl mx-auto space-y-8">
+
+        <!-- Bienvenida -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Pipeline Overview</h1>
+                <p class="text-slate-500 mt-1">Aquí tienes un resumen actualizado de tu negocio hoy.</p>
+            </div>
+            <button
+                class="bg-sagrada-gold hover:bg-sagrada-gold-hover text-white px-5 py-2.5 rounded-xl shadow-sm text-sm font-semibold transition-all transform hover:-translate-y-0.5 whitespace-nowrap">
+                + Nuevo Trato
+            </button>
+        </div>
+
+        <!-- Tarjetas de KPIs (Cargando desde el Observable) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div *ngFor="let kpi of kpis"
+                class="bg-sagrada-paper p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-slate-500 text-sm font-semibold">{{ kpi.titulo }}</h3>
+                    <div
+                        class="p-2.5 bg-sagrada-purple/10 text-sagrada-purple rounded-lg group-hover:bg-sagrada-gold group-hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-slate-800">{{ kpi.valor }}</p>
+                <p class="text-sm mt-3 flex items-center font-medium"
+                    [ngClass]="kpi.tendencia > 0 ? 'text-emerald-500' : 'text-red-500'">
+                    <span>{{ kpi.tendencia > 0 ? '+' : '' }}{{ kpi.tendencia }}%</span>
+                    <span class="text-slate-400 ml-2 font-normal">vs mes anterior</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Interfaz ClienteList y Kanban (Para MVP mostramos ambos en el Dashboard Central) -->
+        <app-cliente-list></app-cliente-list>
+
+        <app-kanban-board></app-kanban-board>
+
+    </div>
+</div>

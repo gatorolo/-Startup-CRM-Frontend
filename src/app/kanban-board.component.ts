@@ -20,7 +20,7 @@ import { Trato, EtapaTrato } from './models/models';
       <div class="p-6 flex gap-6 overflow-x-auto pb-8 items-start">
         
         <!-- Iteramos sobre nuestras columnas definidas -->
-        <div *ngFor="let columna of columnas" class="flex-none w-80 bg-sagrada-paper/60 rounded-xl p-4 border border-[#d5c3af]/60">
+        <div *ngFor="let columna of columnas" class="flex-1 min-w-[240px] bg-sagrada-paper/60 rounded-xl p-4 border border-[#d5c3af]/60">
           
           <!-- Cabecera de Columna -->
           <div class="flex justify-between items-center mb-4 px-1">
