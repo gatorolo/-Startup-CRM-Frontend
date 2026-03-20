@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from './services/mock-data.service';
 import { Cliente } from './models/models';
 import { NotificationService } from './services/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cliente-list',
@@ -12,18 +13,8 @@ import { NotificationService } from './services/notification.service';
       <div class="p-6 border-b border-[#efe6d8]">
         <h2 class="text-lg font-bold text-sagrada-purple-dark mb-4">Directorio de Clientes</h2>
         
-        <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
+        <div class="flex flex-col sm:flex-row gap-4 justify-end items-center">
           
-          <!-- Buscador Global en Tiempo Real -->
-          <div class="relative w-full sm:w-80">
-            <input 
-              type="text" 
-              placeholder="Buscar por nombre o empresa..." 
-              (input)="actualizarBusqueda($event)"
-              class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-sagrada-bg border border-[#dcd0c0] focus:ring-2 focus:ring-blue-600 focus:bg-sagrada-paper transition-all text-sm outline-none">
-            <svg class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </div>
-
           <!-- Píldoras de Filtro por Estado -->
           <div class="flex gap-2 w-full sm:w-auto">
             <button 
@@ -81,7 +72,7 @@ import { NotificationService } from './services/notification.service';
               </td>
               <td class="px-6 py-4 text-slate-500">{{ cliente.ultimaInteraccion | date:'mediumDate' }}</td>
               <td class="px-6 py-4 text-right">
-                <!-- Acciones (Solo visibles en Hover para UI más limpia) -->
+                <!-- Acciones (Visibles solo en hover) -->
                 <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button (click)="enviarWhatsApp(cliente)" title="Enviar WhatsApp" class="text-slate-400 hover:text-emerald-500 transition-colors p-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -115,7 +106,7 @@ import { NotificationService } from './services/notification.service';
 export class ClienteListComponent implements OnInit {
   
   clientes: Cliente[] = [];
-  busqueda: string = '';
+  busquedaGlobal: string = '';
   filtroEstado: 'Todos' | 'Activo' | 'Inactivo' = 'Todos';
 
   constructor(private dataService: DataService, private notifService: NotificationService) {}
@@ -124,11 +115,9 @@ export class ClienteListComponent implements OnInit {
     this.dataService.getClientes().subscribe(data => {
       this.clientes = data;
     });
-  }
-
-  actualizarBusqueda(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.busqueda = input.value;
+    this.dataService.busquedaGlobal$.subscribe(term => {
+      this.busquedaGlobal = term;
+    });
   }
 
   setFiltroEstado(estado: 'Todos' | 'Activo' | 'Inactivo') {
@@ -136,25 +125,26 @@ export class ClienteListComponent implements OnInit {
   }
 
   getClientesFiltrados(): Cliente[] {
-    const term = this.busqueda.toLowerCase();
+    const termGlobal = this.busquedaGlobal.toLowerCase();
     const estado = this.filtroEstado;
     
     return this.clientes.filter(c => {
-      const coincideBusqueda = c.nombre.toLowerCase().includes(term) || c.empresa.toLowerCase().includes(term);
+      const coincideGlobal = c.nombre.toLowerCase().includes(termGlobal) || c.empresa.toLowerCase().includes(termGlobal);
       const coincideEstado = estado === 'Todos' || c.estado === estado;
-      return coincideBusqueda && coincideEstado;
+      
+      return coincideGlobal && coincideEstado;
     });
   }
 
   enviarWhatsApp(cliente: Cliente) {
     this.notifService.sendWhatsApp({ phone: '+5491122334455', message: `Hola ${cliente.nombre}, ¿cómo estás?` }).subscribe(res => {
-      alert(`WhatsApp enviado a ${cliente.nombre}`);
+      Swal.fire('¡Enviado!', `WhatsApp enviado a ${cliente.nombre}`, 'success');
     });
   }
 
   enviarEmail(cliente: Cliente) {
     this.notifService.sendEmail({ to: 'fake@email.com', subject: 'Contacto CRM', body: `Hola ${cliente.nombre}...` }).subscribe(res => {
-      alert(`Email enviado a ${cliente.nombre}`);
+      Swal.fire('¡Enviado!', `Email enviado a ${cliente.nombre}`, 'success');
     });
   }
 }

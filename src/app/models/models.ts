@@ -5,6 +5,8 @@ export interface Cliente {
   avatar: string;
   estado: 'Activo' | 'Inactivo';
   ultimaInteraccion: string;
+  email?: string;
+  telefono?: string;
 }
 
 export type EtapaTrato = 'Prospecto' | 'Negociación' | 'Propuesta' | 'Cerrado';

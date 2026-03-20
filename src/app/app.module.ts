@@ -2,25 +2,32 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClienteListComponent } from './cliente-list.component';
 import { KanbanBoardComponent } from './kanban-board.component';
 import { HomeComponent } from './components/home/home.component';
-
+import { PhonePipe } from './pipes/phone.pipe';
+import { DirectorioComponent } from './components/directorio/directorio.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     AppComponent,
     ClienteListComponent,
     KanbanBoardComponent,
-    HomeComponent
+    HomeComponent,
+    PhonePipe,
+    DirectorioComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

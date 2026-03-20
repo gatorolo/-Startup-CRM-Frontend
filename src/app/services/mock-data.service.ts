@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { Cliente, Kpi, Trato } from '../models/models';
+import { Cliente, Kpi, Trato, EtapaTrato } from '../models/models';
 
-const MOCK_CLIENTES: Cliente[] = [
-  { id: '1', nombre: 'Ana García', empresa: 'TechCorp', avatar: 'https://i.pravatar.cc/150?u=1', estado: 'Activo', ultimaInteraccion: '2023-10-25' },
-  { id: '2', nombre: 'Carlos Ruiz', empresa: 'Global Logistics', avatar: 'https://i.pravatar.cc/150?u=2', estado: 'Inactivo', ultimaInteraccion: '2023-09-15' },
-  { id: '3', nombre: 'Elena Mora', empresa: 'Finanza Startup', avatar: 'https://i.pravatar.cc/150?u=3', estado: 'Activo', ultimaInteraccion: '2023-11-02' },
-  { id: '4', nombre: 'David Silva', empresa: 'EcoEnergies', avatar: 'https://i.pravatar.cc/150?u=4', estado: 'Activo', ultimaInteraccion: '2023-11-10' }
+let MOCK_CLIENTES: Cliente[] = [
+  { id: '1', nombre: 'Ana García', empresa: 'TechCorp', avatar: 'https://i.pravatar.cc/150?img=1', estado: 'Activo', ultimaInteraccion: '2023-10-25', email: 'ana@techcorp.com', telefono: '+5491144445555' },
+  { id: '2', nombre: 'Carlos Ruiz', empresa: 'Global Logistics', avatar: 'https://i.pravatar.cc/150?img=2', estado: 'Inactivo', ultimaInteraccion: '2023-09-15', email: 'carlos@global.com', telefono: '+5491122223333' },
+  { id: '3', nombre: 'Elena Mora', empresa: 'Finanza Startup', avatar: 'https://i.pravatar.cc/150?img=3', estado: 'Activo', ultimaInteraccion: '2023-11-02', email: 'elena@finanza.com' },
+  { id: '4', nombre: 'David Silva', empresa: 'EcoEnergies', avatar: 'https://i.pravatar.cc/150?img=4', estado: 'Activo', ultimaInteraccion: '2023-11-10', telefono: '3415109918' }
 ];
 
 const MOCK_TRATOS: Trato[] = [
@@ -30,17 +30,50 @@ const MOCK_KPIS: Kpi[] = [
 })
 export class DataService {
 
+  private clientesSubject = new BehaviorSubject<Cliente[]>(MOCK_CLIENTES);
+  public clientes$ = this.clientesSubject.asObservable();
+
+  private busquedaGlobalSubject = new BehaviorSubject<string>('');
+  public busquedaGlobal$ = this.busquedaGlobalSubject.asObservable();
+
+  private tratosSubject = new BehaviorSubject<Trato[]>(MOCK_TRATOS);
+  public tratos$ = this.tratosSubject.asObservable();
+
   constructor() { }
 
   getClientes(): Observable<Cliente[]> {
-    return of(MOCK_CLIENTES).pipe(delay(400));
+    // Al suscribirse, enviamos la emisión actual con un pequeño delay inicial mockeado
+    return this.clientes$.pipe(delay(200));
+  }
+
+  addCliente(nuevoCliente: Cliente) {
+    const actuales = this.clientesSubject.getValue();
+    this.clientesSubject.next([nuevoCliente, ...actuales]);
   }
 
   getTratos(): Observable<Trato[]> {
-    return of(MOCK_TRATOS).pipe(delay(300));
+    return this.tratos$.pipe(delay(200));
+  }
+
+  addTrato(nuevo: Trato) {
+    const actuales = this.tratosSubject.getValue();
+    this.tratosSubject.next([nuevo, ...actuales]);
+  }
+
+  updateTratoEtapa(id: string, etapa: EtapaTrato) {
+    const actuales = this.tratosSubject.getValue();
+    const index = actuales.findIndex(t => t.id === id);
+    if (index !== -1) {
+      actuales[index].etapa = etapa;
+      this.tratosSubject.next([...actuales]);
+    }
   }
 
   getKpis(): Observable<Kpi[]> {
-    return of(MOCK_KPIS).pipe(delay(300));
+    return of(MOCK_KPIS).pipe(delay(200));
+  }
+
+  setBusquedaGlobal(term: string) {
+    this.busquedaGlobalSubject.next(term);
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Kpi } from 'src/app/models/models';
 import { DataService } from 'src/app/services/mock-data.service';
+import { KanbanBoardComponent } from '../../kanban-board.component';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import { DataService } from 'src/app/services/mock-data.service';
 export class HomeComponent implements OnInit {
 
   kpis: Kpi[] = [];
-  mostrarModal: boolean = false;
+  @ViewChild(KanbanBoardComponent) kanbanBoard!: KanbanBoardComponent;
 
   // El servicio ahora se inyecta aquí
   constructor(private dataService: DataService) { }
@@ -22,11 +23,9 @@ export class HomeComponent implements OnInit {
   }
 
   abrirModal() {
-    this.mostrarModal = true;
-  }
-
-  cerrarModal() {
-    this.mostrarModal = false;
+    if (this.kanbanBoard) {
+      this.kanbanBoard.abrirModalTrato();
+    }
   }
 
 }
