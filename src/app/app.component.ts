@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { DataService } from './services/mock-data.service';
+import { NotificationService, AppNotification } from './services/notification.service';
+import { ThemeService } from './services/theme.service';
 import Swal from 'sweetalert2';
 import { PhonePipe } from './pipes/phone.pipe';
 
@@ -9,10 +11,14 @@ import { PhonePipe } from './pipes/phone.pipe';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   sidebarAbierto: boolean = true;
   isLoggedIn: boolean = false;
   mostrarMenuPerfil: boolean = false;
+  
+  mostrarNotificaciones: boolean = false;
+  unreadCount: number = 0;
+  notifications: AppNotification[] = [];
   
   isRegistering: boolean = false;
   nombreAdmin: string = 'Administrador';
@@ -23,7 +29,28 @@ export class AppComponent {
   };
   isSubmitting: boolean = false;
 
-  constructor(private authService: AuthService, private dataService: DataService) {}
+  constructor(
+    private authService: AuthService, 
+    private dataService: DataService, 
+    private notifService: NotificationService,
+    private themeService: ThemeService
+  ) {}
+
+  ngOnInit() {
+    this.notifService.notifications$.subscribe(notifs => {
+      this.notifications = notifs;
+      this.unreadCount = notifs.filter(n => !n.read).length;
+    });
+  }
+
+  toggleNotificaciones() {
+    this.mostrarNotificaciones = !this.mostrarNotificaciones;
+    if (this.mostrarMenuPerfil) this.mostrarMenuPerfil = false;
+  }
+
+  marcarTodoLeido() {
+    this.notifService.markAllAsRead();
+  }
 
   toggleSidebar() {
     this.sidebarAbierto = !this.sidebarAbierto;
@@ -37,6 +64,7 @@ export class AppComponent {
 
   toggleMenuPerfil() {
     this.mostrarMenuPerfil = !this.mostrarMenuPerfil;
+    if (this.mostrarNotificaciones) this.mostrarNotificaciones = false;
   }
 
   actualizarBusquedaGlobal(event: Event) {

@@ -2,3 +2,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Variables base de Sagrada Madre (Modo Claro) */
+:root {
+  --sagrada-bg: #f0e3d2;
+  --sagrada-paper: #fbf7f1;
+  --sagrada-purple: #694a7e;
+  --sagrada-purple-dark: #513763;
+  --sagrada-gold: #b99557;
+  --sagrada-gold-hover: #9e7d44;
+}
+
+/* Modo oscuro elegante (Amatista oscuro) */
+.dark {
+  --sagrada-bg: #1A1625;
+  --sagrada-paper: #262134;
+  --sagrada-purple: #9d7bcc;
+  --sagrada-purple-dark: #b89ce6;
+  --sagrada-gold: #D4AF37;
+  --sagrada-gold-hover: #EAB308;
+  
+  /* Overrides for standard tailwind colors generated dynamically by classes in dark mode */
+  background-color: var(--sagrada-bg) !important;
+  color: #F3F0F5 !important;
+}
+
+/* Forzar fondos oscuros en utilidades comunes si estamos en dark */
+.dark .bg-white { background-color: var(--sagrada-paper) !important; }
+.dark .text-slate-800, .dark .text-slate-700, .dark .text-slate-900 { color: #F8FAFC !important; }
+.dark .text-slate-500, .dark .text-slate-600 { color: #94A3B8 !important; }
+.dark .text-slate-400 { color: #64748B !important; }
+.dark .bg-slate-50, .dark .bg-slate-100 { background-color: rgba(255, 255, 255, 0.05) !important; }
+.dark .border-slate-100, .dark .border-slate-200 { border-color: rgba(255, 255, 255, 0.1) !important; }
+
+/* Corrección de tarjetas personalizadas */
+.dark .bg-sagrada-paper {
+  background-color: var(--sagrada-paper) !important;
+  color: #F3F0F5 !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+.dark .bg-sagrada-bg {
+  background-color: var(--sagrada-bg) !important;
+}

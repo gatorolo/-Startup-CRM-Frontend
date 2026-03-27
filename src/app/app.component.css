@@ -1,0 +1,14 @@
+/* 
+  Asegura que los componentes renderizados por <router-outlet>
+  ocupen toda la altura disponible dentro del <main>.
+  Angular renderiza componentes como elementos inline por defecto.
+  Usamos el selector hermano adyacente (router-outlet + *) para
+  apuntar SOLO al componente que Angular inyecta después del outlet.
+*/
+router-outlet + * {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

@@ -11,6 +11,8 @@ import { KanbanBoardComponent } from './kanban-board.component';
 import { HomeComponent } from './components/home/home.component';
 import { PhonePipe } from './pipes/phone.pipe';
 import { DirectorioComponent } from './components/directorio/directorio.component';
+import { MetricasComponent } from './components/metricas/metricas.component';
+import { ConfiguracionComponent } from './components/configuracion/configuracion.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     KanbanBoardComponent,
     HomeComponent,
     PhonePipe,
-    DirectorioComponent
+    DirectorioComponent,
+    MetricasComponent,
+    ConfiguracionComponent
   ],
   imports: [
     BrowserModule,
@@ -32,4 +36,4 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { /* Refreshed cache */ }

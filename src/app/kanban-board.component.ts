@@ -215,6 +215,7 @@ export class KanbanBoardComponent implements OnInit {
     if (event.previousContainer === event.container) {
       // Reordenar en la misma columna
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.notifService.playSuccessSound();
     } else {
       // Mover a otra columna
       transferArrayItem(
@@ -226,6 +227,7 @@ export class KanbanBoardComponent implements OnInit {
       // Informar al backend del cambio de etapa
       const tratoMovido = event.container.data[event.currentIndex];
       this.dataService.updateTratoEtapa(tratoMovido.id, etapaDestino as EtapaTrato);
+      this.notifService.playSuccessSound();
     }
   }
 
@@ -278,6 +280,7 @@ export class KanbanBoardComponent implements OnInit {
       };
       this.dataService.addTrato(nuevo);
       this.cerrarModalTrato();
+      this.notifService.playSuccessSound();
       Swal.fire('¡Creado!', 'El trato ha sido añadido al Pipeline', 'success');
     }
   }

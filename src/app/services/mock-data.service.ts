@@ -4,10 +4,10 @@ import { delay } from 'rxjs/operators';
 import { Cliente, Kpi, Trato, EtapaTrato } from '../models/models';
 
 let MOCK_CLIENTES: Cliente[] = [
-  { id: '1', nombre: 'Ana García', empresa: 'TechCorp', avatar: 'https://i.pravatar.cc/150?img=1', estado: 'Activo', ultimaInteraccion: '2023-10-25', email: 'ana@techcorp.com', telefono: '+5491144445555' },
-  { id: '2', nombre: 'Carlos Ruiz', empresa: 'Global Logistics', avatar: 'https://i.pravatar.cc/150?img=2', estado: 'Inactivo', ultimaInteraccion: '2023-09-15', email: 'carlos@global.com', telefono: '+5491122223333' },
-  { id: '3', nombre: 'Elena Mora', empresa: 'Finanza Startup', avatar: 'https://i.pravatar.cc/150?img=3', estado: 'Activo', ultimaInteraccion: '2023-11-02', email: 'elena@finanza.com' },
-  { id: '4', nombre: 'David Silva', empresa: 'EcoEnergies', avatar: 'https://i.pravatar.cc/150?img=4', estado: 'Activo', ultimaInteraccion: '2023-11-10', telefono: '3415109918' }
+  { id: '1', nombre: 'Ana García', empresa: 'TechCorp', avatar: 'https://i.pravatar.cc/150?img=9', estado: 'Activo', ultimaInteraccion: '2023-10-25', email: 'ana@techcorp.com', telefono: '+5491144445555' },
+  { id: '2', nombre: 'Carlos Ruiz', empresa: 'Global Logistics', avatar: 'https://i.pravatar.cc/150?img=3', estado: 'Inactivo', ultimaInteraccion: '2023-09-15', email: 'carlos@global.com', telefono: '+5491122223333' },
+  { id: '3', nombre: 'Elena Mora', empresa: 'Finanza Startup', avatar: 'https://i.pravatar.cc/150?img=5', estado: 'Activo', ultimaInteraccion: '2023-11-02', email: 'elena@finanza.com' },
+  { id: '4', nombre: 'David Silva', empresa: 'EcoEnergies', avatar: 'https://i.pravatar.cc/150?img=8', estado: 'Activo', ultimaInteraccion: '2023-11-10', telefono: '3415109918' }
 ];
 
 const MOCK_TRATOS: Trato[] = [

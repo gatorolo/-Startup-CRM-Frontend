@@ -1,17 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{html,ts}",
   ],
   theme: {
     extend: {
       colors: {
-        'sagrada-bg': '#f0e3d2',
-        'sagrada-paper': '#fbf7f1',
-        'sagrada-purple': '#694a7e',
-        'sagrada-purple-dark': '#513763',
-        'sagrada-gold': '#b99557',
-        'sagrada-gold-hover': '#9e7d44',
+        'sagrada-bg': 'var(--sagrada-bg)',
+        'sagrada-paper': 'var(--sagrada-paper)',
+        'sagrada-purple': 'var(--sagrada-purple)',
+        'sagrada-purple-dark': 'var(--sagrada-purple-dark)',
+        'sagrada-gold': 'var(--sagrada-gold)',
+        'sagrada-gold-hover': 'var(--sagrada-gold-hover)',
       }
     },
   },
